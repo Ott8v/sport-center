@@ -1,0 +1,33 @@
+ervices:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - ${DB_PORT}:5432
+    networks:
+      - sports-centre
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+    env_file:
+      - .env
+    container_name: sports-centre-backend
+    ports:
+      - ${PORT}:3333
+    networks:
+      - sports-centre
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+
+networks:
+  library:
+    name: sports-centre
