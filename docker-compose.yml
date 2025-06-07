@@ -1,4 +1,4 @@
-ervices:
+services:
   postgres:
     image: postgres:latest
     restart: always
@@ -26,8 +26,8 @@ ervices:
     depends_on:
       - postgres
     volumes:
-      - .:/app
+      - .:/codebase
 
 networks:
-  library:
+  sports-centre:
     name: sports-centre

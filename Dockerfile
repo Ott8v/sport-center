@@ -1,12 +1,11 @@
 FROM node:latest
 
+RUN mkdir -p /codebase
 
-WORKDIR /app
 
-EXPOSE  3333
+WORKDIR /codebase
 
-RUN npm i
+COPY entrypoint.sh /etc/entrypoint.sh
+RUN chmod +x /etc/entrypoint.sh
 
-RUN node ace migration:run
-
-CMD ["npm", "run", "dev"]
+ENTRYPOINT ["/etc/entrypoint.sh"]
