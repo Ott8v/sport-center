@@ -22,4 +22,4 @@ router
     router.resource('courses', CoursesController)
     router.resource('bookings', BooKingsController)
   })
-  .use(middleware.auth())
+  .use([middleware.auth(), middleware.userRole(['staff'])])
