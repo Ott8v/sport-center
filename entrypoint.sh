@@ -2,12 +2,16 @@
 set -e
 
 #install dependencies
-echo "Installing dependencies..."
+echo "📦 Installing dependencies..."
 npm install
 
-# Run migrations
-echo "Running migrations..."
-node ace migration:run
+echo "🗃️  Running database migrations..."
+if node ace migration:run; then
+    echo "✅ Migrations completed successfully"
+else
+    echo "❌ Migration failed"
+    exit 1
+fi
 
-echo "Starting application..."
+echo "🎯 Starting application..."
 exec npm run dev

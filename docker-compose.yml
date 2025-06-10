@@ -30,4 +30,4 @@ services:
 
 networks:
   sports-centre:
-    name: sports-centre
+    driver: bridge

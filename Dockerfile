@@ -1,8 +1,5 @@
 FROM node:latest
 
-RUN mkdir -p /codebase
-
-
 WORKDIR /codebase
 
 COPY entrypoint.sh /etc/entrypoint.sh
