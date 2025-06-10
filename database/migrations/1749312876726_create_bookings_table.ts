@@ -23,6 +23,8 @@ export default class extends BaseSchema {
         .notNullable()
         .onDelete('CASCADE')
 
+      table.enum('status', ['pending', 'confirmed', 'cancelled']).notNullable().defaultTo('pending')
+
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
