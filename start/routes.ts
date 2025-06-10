@@ -18,8 +18,8 @@ router.post('register', '#controllers/auth_controller.register')
 
 router
   .group(() => {
-    router.resource('users', UsersController)
-    router.resource('courses', CoursesController)
-    router.resource('bookings', BooKingsController)
+    router.resource('users', UsersController).apiOnly()
+    router.resource('courses', CoursesController).apiOnly()
+    router.resource('bookings', BooKingsController).apiOnly()
   })
   .use([middleware.auth(), middleware.userRole(['staff'])])
