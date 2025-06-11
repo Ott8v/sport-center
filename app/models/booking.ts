@@ -8,10 +8,10 @@ export default class Booking extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
+  @column({ columnName: 'user_id' })
   declare userId: number
 
-  @column()
+  @column({ columnName: 'course_id' })
   declare courseId: number
 
   @column()

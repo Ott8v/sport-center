@@ -8,8 +8,8 @@ export default class Course extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
-  declare intructorId: number
+  @column({ columnName: 'instructor_id' })
+  declare instructorId: number
 
   @column()
   declare name: string
@@ -35,7 +35,9 @@ export default class Course extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @belongsTo(() => User)
+  @belongsTo(() => User, {
+    foreignKey: 'instructorId',
+  })
   declare instructor: BelongsTo<typeof User>
 
   @hasMany(() => Booking)

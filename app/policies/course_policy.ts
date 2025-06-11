@@ -5,10 +5,10 @@ import { AuthorizerResponse } from '@adonisjs/bouncer/types'
 
 export default class CoursePolicy extends BasePolicy {
   update(user: User, course: Course): AuthorizerResponse {
-    return user.id === course.intructorId || user.role === 'admin'
+    return user.id === course.instructorId || user.role === 'admin'
   }
 
   delete(user: User, course: Course): AuthorizerResponse {
-    return user.id === course.intructorId || user.role === 'admin'
+    return user.id === course.instructorId || user.role === 'admin'
   }
 }

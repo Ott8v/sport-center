@@ -24,7 +24,7 @@ export default class CoursesController {
   async store({ request, auth }: HttpContext) {
     const id = auth.user?.id
     const data = request.body()
-    const course = await Course.create({ ...data, intructorId: id })
+    const course = await Course.create({ ...data, instructorId: id })
     return course
   }
 
@@ -64,7 +64,7 @@ export default class CoursesController {
 
   async getCourseByInstrtuctorId({ params }: HttpContext) {
     const courses = await Course.query()
-      .where('intructorId', params.id)
+      .where('instructorId', params.instructorId)
       .preload('instructor')
       .orderBy('createdAt', 'desc')
 
