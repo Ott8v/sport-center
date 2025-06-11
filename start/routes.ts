@@ -18,6 +18,8 @@ router.post('register', '#controllers/auth_controller.register')
 
 router
   .group(() => {
+    router.get('users/:instructorId/courses', [CoursesController, 'getCourseByInstrtuctorId'])
+    router.get('users/bookings', [BooKingsController, 'getBookingsCountForUsers'])
     router.resource('users', UsersController).apiOnly()
     router.resource('courses', CoursesController).apiOnly()
     router.resource('bookings', BooKingsController).apiOnly()

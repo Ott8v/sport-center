@@ -1,7 +1,8 @@
 import User from '#models/user'
+import Booking from '#models/booking'
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 
 export default class Course extends BaseModel {
   @column({ isPrimary: true })
@@ -36,4 +37,7 @@ export default class Course extends BaseModel {
 
   @belongsTo(() => User)
   declare instructor: BelongsTo<typeof User>
+
+  @hasMany(() => Booking)
+  declare bookings: HasMany<typeof Booking>
 }
