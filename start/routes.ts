@@ -22,13 +22,14 @@ router
     router
       .group(() => {
         router.get('users/:instructorId/courses', [CoursesController, 'getCourseByInstrtuctorId'])
-        router.get('users/bookings', [BooKingsController, 'getBookingsCountForUsers'])
         router.resource('users', UsersController).apiOnly()
         router.resource('courses', CoursesController).apiOnly()
         router
           .resource('bookings', BooKingsController)
           .apiOnly()
           .only(['index', 'show', 'update', 'destroy'])
+        router.get('statistics/bookings', [BooKingsController, 'getBookingsCountForUsers'])
+        router.get('statistics/courses', [CoursesController, 'getTopCourses'])
       })
       .use(middleware.userRole(['staff']))
   })

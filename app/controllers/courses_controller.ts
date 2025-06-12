@@ -73,4 +73,20 @@ export default class CoursesController {
     }
     return courses
   }
+
+  async getTopCourses({ request }: HttpContext) {
+    const limit = request.qs().limit || 5
+    const courses = await Course.query()
+      .preload('instructor')
+      .preload('bookings', (bookingQuery) => {
+      bookingQuery.where('status', 'confirmed')
+      })
+      .orderByRaw('(SELECT COUNT(*) FROM bookings WHERE bookings.course_id = courses.id AND bookings.status = \'confirmed\') DESC')
+      .limit(limit)
+
+    if (courses.length === 0) {
+      return { message: 'No courses available.' }
+    }
+    return courses
+  }
 }
