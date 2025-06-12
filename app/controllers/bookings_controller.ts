@@ -1,3 +1,4 @@
+import Course from '#models/course'
 import Booking from '#models/booking'
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -26,10 +27,20 @@ export default class BookingsController {
   /**
    * Handle form submission for the create action
    */
-  async store({ request, auth }: HttpContext) {
+  async store({ request, auth, response }: HttpContext) {
     const id = auth.user?.id
     const data = request.body()
+    const course = await Course.findOrFail(data.courseId)
+    if (course.isFull) {
+      return response.status(400).json({ message: 'Course is full' })
+    }
     const newBooking = await Booking.create({ ...data, userId: id })
+    const bookingsCount = await Booking.query().where('courseId', course.id).count('* as count')
+    if (bookingsCount[0].$extras.count === course.maxParticipants) {
+      course.isFull = true
+      await course.save()
+    }
+
     return newBooking
   }
 

@@ -41,7 +41,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @hasMany(() => Booking)
   declare bookings: HasMany<typeof Booking>
 
-  @hasMany(() => Course)
+  @hasMany(() => Course, {
+    foreignKey: 'instructorId',
+  })
   declare courses: HasMany<typeof Course>
 
   static accessTokens = DbAccessTokensProvider.forModel(User)

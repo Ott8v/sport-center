@@ -49,7 +49,7 @@ export default class UsersController {
     return { message: 'User deleted successfully' }
   }
 
-  async getInstructorsWithCourses({ }: HttpContext) {
+  async getInstructorsWithCourses({}: HttpContext) {
     const user = await User.query()
       .where('role', 'staff')
       .preload('courses')

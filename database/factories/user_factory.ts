@@ -8,6 +8,7 @@ export const UserFactory = factory
       surname: faker.person.lastName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
+      role: faker.helpers.arrayElement(['staff', 'user']),
     }
   })
   .build()

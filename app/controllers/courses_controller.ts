@@ -79,9 +79,11 @@ export default class CoursesController {
     const courses = await Course.query()
       .preload('instructor')
       .preload('bookings', (bookingQuery) => {
-      bookingQuery.where('status', 'confirmed')
+        bookingQuery.where('status', 'confirmed')
       })
-      .orderByRaw('(SELECT COUNT(*) FROM bookings WHERE bookings.course_id = courses.id AND bookings.status = \'confirmed\') DESC')
+      .orderByRaw(
+        "(SELECT COUNT(*) FROM bookings WHERE bookings.course_id = courses.id AND bookings.status = 'confirmed') DESC"
+      )
       .limit(limit)
 
     if (courses.length === 0) {
