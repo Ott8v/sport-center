@@ -48,4 +48,12 @@ export default class UsersController {
     await user.delete()
     return { message: 'User deleted successfully' }
   }
+
+  async getInstructorsWithCourses({ }: HttpContext) {
+    const user = await User.query()
+      .where('role', 'staff')
+      .preload('courses')
+      .orderBy('createdAt', 'desc')
+    return user
+  }
 }

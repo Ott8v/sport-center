@@ -21,7 +21,8 @@ router
     router.resource('bookings', BooKingsController).only(['store'])
     router
       .group(() => {
-        router.get('users/:instructorId/courses', [CoursesController, 'getCourseByInstrtuctorId'])
+        router.get('instructors/courses', [UsersController, 'getInstructorsWithCourses'])
+        router.get('instructors/:instructorId/courses', [CoursesController, 'getCourseByInstrtuctorId'])
         router.resource('users', UsersController).apiOnly()
         router.resource('courses', CoursesController).apiOnly()
         router
