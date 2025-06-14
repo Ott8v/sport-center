@@ -80,7 +80,10 @@ export default class BookingsController {
     if (coursePopulate[0].bookings.length === coursePopulate[0].maxParticipants) {
       course.isFull = true
       await course.save()
-    } else {
+    } else if (
+      coursePopulate[0].bookings.length < coursePopulate[0].maxParticipants &&
+      course.isFull
+    ) {
       course.isFull = false
       await course.save()
     }
