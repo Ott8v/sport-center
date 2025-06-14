@@ -30,16 +30,17 @@ export default class BookingsController {
   async store({ request, auth, response }: HttpContext) {
     const id = auth.user?.id
     const data = request.body()
+    const bookingExists = await Booking.findBy({ courseId: data.courseId, userId: id })
+    if (bookingExists) {
+      return response.status(400).json({ message: 'Booking already exists for this course' })
+    }
+
     const course = await Course.findOrFail(data.courseId)
     if (course.isFull) {
       return response.status(400).json({ message: 'Course is full' })
     }
+
     const newBooking = await Booking.create({ ...data, userId: id })
-    const bookingsCount = await Booking.query().where('courseId', course.id).count('* as count')
-    if (bookingsCount[0].$extras.count === course.maxParticipants) {
-      course.isFull = true
-      await course.save()
-    }
 
     return newBooking
   }
@@ -60,11 +61,30 @@ export default class BookingsController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ params, request }: HttpContext) {
-    const booking = await Booking.findOrFail(params.id)
+  async update({ params, request, response }: HttpContext) {
+    const id = params.id
+    const booking = await Booking.findOrFail(id)
     const data = request.body()
-    booking.merge(data)
+    const course = await Course.findOrFail(booking.courseId)
+    if (course.isFull && data.status === 'confirmed') {
+      response.badRequest('Course is full')
+    }
+    booking.status = data.status
     await booking.save()
+    const coursePopulate = await Course.query()
+      .where('id', booking.courseId)
+      .preload('bookings', (bookingsQuery) => {
+        bookingsQuery.where('status', 'confirmed')
+      })
+    console.log(coursePopulate[0].bookings)
+    if (coursePopulate[0].bookings.length === coursePopulate[0].maxParticipants) {
+      course.isFull = true
+      await course.save()
+    } else {
+      course.isFull = false
+      await course.save()
+    }
+
     return booking
   }
 
