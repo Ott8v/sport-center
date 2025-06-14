@@ -29,6 +29,15 @@ docker-compose up --build
 docker-compose up -d --build
 ```
 
+### Creazione utente
+```bash
+# Entrare nel terminale del container
+docker exec -it sports-centre-backend sh
+
+#Eseguire
+node ace create:user
+```
+
 ## API Endpoints
 
 ### Autenticazione
