@@ -45,6 +45,11 @@ export default class CoursesController {
       return response.forbidden('You do not have permission to update this course.')
     }
     const data = request.body()
+    if (data.isFull !== undefined) {
+      return response.badRequest(
+        'Cannot update isFull status directly. Use the booking system to manage course capacity.'
+      )
+    }
     course.merge(data)
     await course.save()
     return course
